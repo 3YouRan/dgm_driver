@@ -177,11 +177,11 @@ void CAN_Filter_List_Config_32bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, 
         //掩码后ID的高16bit
         CAN_Filter_Init_Structure.FilterMaskIdHigh = ID_1<<3>>16;
         //掩码后ID的低16bit
-        CAN_Filter_Init_Structure.FilterMaskIdLow = ID_1<<3|((Object_Para&0x03)<<1);
+        CAN_Filter_Init_Structure.FilterMaskIdLow = ID_1<<3|((Object_Para&0x03)<<2);
         //ID掩码值高16bit
         CAN_Filter_Init_Structure.FilterIdHigh = ID_2<<3>>16;
         //ID掩码值低16bit
-        CAN_Filter_Init_Structure.FilterIdLow = ID_2<<3|((Object_Para&0x03)<<1);
+        CAN_Filter_Init_Structure.FilterIdLow = ID_2<<3|((Object_Para&0x03)<<2);
     }
         //0000 0010 0000 0101  <<3  0001 0000 0010 1000
     else{

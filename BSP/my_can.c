@@ -38,14 +38,13 @@ uint8_t CAN_Transmit_DATA(CAN_HandleTypeDef *hcan, uint16_t Std_Id, uint32_t Ext
 
     //检测关键传参
     assert_param(hcan!= NULL);
-    if(Std_Id){
-        TX_Header.StdId = Std_Id;//标准帧ID
-        TX_Header.ExtId = 0;//扩展帧ID，不使用
-    } else if(Ext_Id){
-        TX_Header.StdId = 0;//标准帧ID，不使用
-        TX_Header.ExtId = Ext_Id;//扩展帧ID
+    TX_Header.StdId = Std_Id;//标准帧ID
+    TX_Header.ExtId = Ext_Id;//扩展帧ID，不使用
+    if (Std_Id!= 0) {
+        TX_Header.IDE = CAN_ID_STD;//标准帧，不使用扩展帧
+    }else if(Ext_Id!= 0){
+        TX_Header.IDE = CAN_ID_EXT;//扩展帧，不使用标准帧
     }
-    TX_Header.IDE=CAN_ID_STD;//标准帧，不使用扩展帧
     TX_Header.RTR=CAN_RTR_DATA;//标准帧，不使用
     TX_Header.DLC=len;//数据长度
 
@@ -122,11 +121,11 @@ void CAN_Filter_Mask_Config_32bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, 
         //扩展格式ID的高16bit
         CAN_Filter_Init_Structure.FilterMaskIdHigh = ID<<3>>16;//该成员变量只有高16bit发挥作用
         //扩展格式ID的低16bit
-        CAN_Filter_Init_Structure.FilterMaskIdLow = ID<<3|((Object_Para&0x03)<<1);//该成员变量只有低16bit发挥作用
+        CAN_Filter_Init_Structure.FilterMaskIdLow = ID<<3|((Object_Para&0x03)<<2);//该成员变量只有低16bit发挥作用
         //掩码高16bit
         CAN_Filter_Init_Structure.FilterIdHigh = Mask_ID<<3>>16;
         //掩码低16bit
-        CAN_Filter_Init_Structure.FilterIdLow = Mask_ID<<3|((Object_Para&0x03)<<1);
+        CAN_Filter_Init_Structure.FilterIdLow = Mask_ID<<3|((Object_Para&0x03)<<2);
     }
         //0000 0010 0000 0101  <<3  0001 0000 0010 1000
     else{
@@ -177,11 +176,11 @@ void CAN_Filter_List_Config_32bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, 
         //掩码后ID的高16bit
         CAN_Filter_Init_Structure.FilterMaskIdHigh = ID_1<<3>>16;
         //掩码后ID的低16bit
-        CAN_Filter_Init_Structure.FilterMaskIdLow = ID_1<<3|((Object_Para&0x03)<<2);
+        CAN_Filter_Init_Structure.FilterMaskIdLow = ID_1<<3|((Object_Para&0x03)<<1);
         //ID掩码值高16bit
         CAN_Filter_Init_Structure.FilterIdHigh = ID_2<<3>>16;
         //ID掩码值低16bit
-        CAN_Filter_Init_Structure.FilterIdLow = ID_2<<3|((Object_Para&0x03)<<2);
+        CAN_Filter_Init_Structure.FilterIdLow = ID_2<<3|((Object_Para&0x03)<<1);
     }
         //0000 0010 0000 0101  <<3  0001 0000 0010 1000
     else{

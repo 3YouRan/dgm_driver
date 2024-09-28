@@ -24,22 +24,27 @@ void CAN_Init(CAN_HandleTypeDef *hcan){
  * @brief CAN发送数据函数
  *
  * @param hcan CAN句柄
- * @param id ID 帧ID
+ * @param Std_Id 标准帧ID (Std_Id=0表示不使用标准帧ID)
+ * @param Ext_Id 扩展帧ID (Ext_Id=0表示不使用扩展帧ID)
  * @param *data 数据指针
  * @param len 数据长度
  *
  * @return 发送成功返回0，发送失败返回1
  * */
-uint8_t CAN_Transmit_DATA(CAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, uint8_t len)
+uint8_t CAN_Transmit_DATA(CAN_HandleTypeDef *hcan, uint16_t Std_Id, uint32_t Ext_Id,uint8_t *data, uint8_t len)
 {
     CAN_TxHeaderTypeDef TX_Header;
     uint32_t used_mailbox=CAN_TX_MAILBOX0;
 
     //检测关键传参
     assert_param(hcan!= NULL);
-
-    TX_Header.StdId = id;//标准帧ID
-    TX_Header.ExtId = 0;//扩展帧ID，不使用
+    if(Std_Id){
+        TX_Header.StdId = Std_Id;//标准帧ID
+        TX_Header.ExtId = 0;//扩展帧ID，不使用
+    } else if(Ext_Id){
+        TX_Header.StdId = 0;//标准帧ID，不使用
+        TX_Header.ExtId = Ext_Id;//扩展帧ID
+    }
     TX_Header.IDE=CAN_ID_STD;//标准帧，不使用扩展帧
     TX_Header.RTR=CAN_RTR_DATA;//标准帧，不使用
     TX_Header.DLC=len;//数据长度
@@ -63,7 +68,7 @@ void GM6020_Voltage_Set(CAN_HandleTypeDef *hcan, int16_t volt,uint8_t motor_ID){
         tx_data[1] = (volt)&0xff;
     }
 
-    CAN_Transmit_DATA(hcan,0x202,tx_data,8);
+    CAN_Transmit_DATA(hcan,0x202,0,tx_data,8);
 
 }
 /*
@@ -93,7 +98,7 @@ void GM3508_Current_Set(CAN_HandleTypeDef *hcan, int16_t Current,uint16_t id,uin
         tx_data[6] = (Current>>8)&0xff;
         tx_data[7] = (Current)&0xff;
     }
-    CAN_Transmit_DATA(hcan,id,tx_data,8);
+    CAN_Transmit_DATA(hcan,id,0,tx_data,8);
 
 }
 /*
@@ -123,7 +128,7 @@ void CAN_Filter_Mask_Config_32bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, 
         //掩码低16bit
         CAN_Filter_Init_Structure.FilterIdLow = Mask_ID<<3|((Object_Para&0x03)<<1);
     }
-    //0000 0010 0000 0101  <<3  0001 0000 0010 1000
+        //0000 0010 0000 0101  <<3  0001 0000 0010 1000
     else{
         //标准帧
         //ID的高16bit

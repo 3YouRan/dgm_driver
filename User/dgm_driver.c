@@ -13,7 +13,7 @@
  */
 void DGM_Motor_Disable(uint8_t motor_id){
 
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x000,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x000,0,NULL,0);
 
 }
 /*
@@ -25,7 +25,7 @@ void DGM_Motor_Disable(uint8_t motor_id){
  */
 void DGM_Motor_Enable(uint8_t motor_id){
 
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x001,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x001,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Set_Torque
@@ -37,7 +37,7 @@ void DGM_Motor_Enable(uint8_t motor_id){
  */
 void DGM_Motor_Set_Torque(uint8_t motor_id,float *torque){
 
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x002,(uint8_t*)torque,4);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x002,0,(uint8_t*)torque,4);
 
 }
 /*
@@ -50,7 +50,7 @@ void DGM_Motor_Set_Torque(uint8_t motor_id,float *torque){
  */
 void DGM_Motor_Set_Speed(uint8_t motor_id,float *speed){
 
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x003,(uint8_t*)speed,4);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x003,0,(uint8_t*)speed,4);
 
 }
 /*
@@ -62,7 +62,7 @@ void DGM_Motor_Set_Speed(uint8_t motor_id,float *speed){
  * @return None
  */
 void DGM_Motor_Set_Position(uint8_t motor_id,float *position) {
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x004,(uint8_t*)position,4);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x004,0,(uint8_t*)position,4);
 }
 /*
  * @brief DGM_Motor_Sync 运动控制指令同步信号 node_id设置为0x1F表示广播
@@ -72,7 +72,7 @@ void DGM_Motor_Set_Position(uint8_t motor_id,float *position) {
  * @return None
  */
 void DGM_Motor_Sync(void){
-    CAN_Transmit_DATA(&hcan1,0x1F<<6|0x005,NULL,0);
+    CAN_Transmit_DATA(&hcan1,0x1F<<6|0x005,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Set_home 设定电机的零点位置
@@ -82,7 +82,7 @@ void DGM_Motor_Sync(void){
  * @return None
  */
 void DGM_Motor_Set_home(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x00C,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x00C,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_ERR_Reset 复位电机的错误状态
@@ -92,7 +92,7 @@ void DGM_Motor_Set_home(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_ERR_Reset(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x00D,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x00D,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_StatusWord 获取电机的状态字
@@ -102,7 +102,7 @@ void DGM_Motor_ERR_Reset(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_StatusWord(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x00E,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x00E,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_Torque 获取电机的力矩
@@ -112,7 +112,7 @@ void DGM_Motor_Get_StatusWord(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_Torque(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x010,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x010,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_Speed 获取电机的速度
@@ -122,7 +122,7 @@ void DGM_Motor_Get_Torque(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_Speed(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x011,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x011,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_Position 获取电机的位置
@@ -132,7 +132,7 @@ void DGM_Motor_Get_Speed(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_Position(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x012,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x012,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_Current 获取电机的电流
@@ -142,7 +142,7 @@ void DGM_Motor_Get_Position(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_Current(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x013,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x013,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_VBus 获取电机的母线电压
@@ -152,7 +152,7 @@ void DGM_Motor_Get_Current(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_VBus(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x014,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x014,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_IBus 获取电机的母线电流
@@ -162,7 +162,7 @@ void DGM_Motor_Get_VBus(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_IBus(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x015,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x015,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Get_Power 获取电机的功率
@@ -172,7 +172,7 @@ void DGM_Motor_Get_IBus(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Get_Power(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x016,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|0x016,0,NULL,0);
 }
 /*
  * @brief DGM_Motor_Heartbeat 心跳命令
@@ -182,5 +182,5 @@ void DGM_Motor_Get_Power(uint8_t motor_id){
  * @return None
  */
 void DGM_Motor_Heartbeat(uint8_t motor_id){
-    CAN_Transmit_DATA(&hcan1,motor_id<<6|63,NULL,0);
+    CAN_Transmit_DATA(&hcan1,motor_id<<6|63,0,NULL,0);
 }

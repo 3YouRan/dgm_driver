@@ -30,7 +30,7 @@ typedef struct DJI_motor{
 }DJI_motor;
 
 void CAN_Init(CAN_HandleTypeDef *hcan);
-uint8_t CAN_Transmit_DATA(CAN_HandleTypeDef *hcan, uint16_t id, uint8_t *data, uint8_t len);
+uint8_t CAN_Transmit_DATA(CAN_HandleTypeDef *hcan, uint16_t Std_Id,uint32_t Ext_Id, uint8_t *data, uint8_t len);
 void CAN_Filter_Mask_Config_32bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, uint32_t ID, uint32_t Mask_ID);
 void CAN_Filter_List_Config_32bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, uint32_t ID_1, uint32_t ID_2);
 void CAN_Filter_Mask_Config_16bit(CAN_HandleTypeDef *hcan, uint8_t Object_Para, uint32_t ID_set, uint32_t Mask_ID_set);
